@@ -331,6 +331,149 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Modal de celebración */
+.birthday-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: modalFadeIn 0.5s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease infinite;
+    border-radius: 25px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: scale(0.7);
+    animation: modalPop 0.6s ease-out 0.3s forwards;
+}
+
+@keyframes modalPop {
+    to {
+        transform: scale(1);
+    }
+}
+
+.modal-body {
+    padding: 50px 40px;
+    text-align: center;
+    color: white;
+    position: relative;
+    z-index: 10;
+}
+
+.modal-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    animation: titleBounce 2s ease-in-out infinite;
+}
+
+.modal-message {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.modal-hearts {
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.heart-emoji {
+    font-size: 2.5rem;
+    animation: heartBeat 1.5s ease-in-out infinite;
+    display: inline-block;
+}
+
+.heart-emoji:nth-child(1) { animation-delay: 0s; }
+.heart-emoji:nth-child(2) { animation-delay: 0.3s; }
+.heart-emoji:nth-child(3) { animation-delay: 0.6s; }
+.heart-emoji:nth-child(4) { animation-delay: 0.9s; }
+.heart-emoji:nth-child(5) { animation-delay: 1.2s; }
+
+@keyframes heartBeat {
+    0%, 50%, 100% { transform: scale(1); }
+    25% { transform: scale(1.3); }
+}
+
+.close-modal-btn {
+    background: linear-gradient(45deg, #e91e63, #f06292);
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.close-modal-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(233, 30, 99, 0.6);
+}
+
+.modal-fireworks {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Responsive para modal */
+@media (max-width: 768px) {
+    .modal-title {
+        font-size: 2rem;
+    }
+    
+    .modal-message {
+        font-size: 1.1rem;
+    }
+    
+    .heart-emoji {
+        font-size: 2rem;
+    }
+    
+    .modal-body {
+        padding: 30px 25px;
+    }
+}
     </style>
 </head>
 <body>
@@ -502,7 +645,37 @@ Ah, y siempre tener buen sexo.
         </section>
     </div>
 
-    <!-- Botones de navegación -->
+    <!-- Modal de celebración elegante -->
+<div class="birthday-modal" id="birthdayModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-fireworks">
+            <div class="firework"></div>
+            <div class="firework"></div>
+            <div class="firework"></div>
+        </div>
+        <div class="modal-body">
+            <h1 class="modal-title">🎉 FELIZ CUMPLEAÑOS AMOR 🎉</h1>
+            <p class="modal-message">
+                Eres la luz de mi vida, mi compañera de aventuras y mi amor eterno.<br>
+                Que este nuevo año te traiga toda la felicidad que mereces y más.<br>
+                <strong>Te amo infinitamente. ❤️</strong>
+            </p>
+            <div class="modal-hearts">
+                <span class="heart-emoji">💖</span>
+                <span class="heart-emoji">💕</span>
+                <span class="heart-emoji">💗</span>
+                <span class="heart-emoji">🌹</span>
+                <span class="heart-emoji">✨</span>
+            </div>
+            <button class="close-modal-btn" onclick="closeBirthdayModal()">
+                ❤️ Cerrar ❤️
+            </button>
+        </div>
+    </div>
+</div>
+
+        <!-- Botones de navegación -->
     <div class="nav-buttons" id="navButtons">
         <button class="nav-btn" onclick="scrollToSection('reasonsSection')">💕 Razones</button>
         <button class="nav-btn" onclick="scrollToSection('bookSection')">📖 Historia</button>
@@ -511,11 +684,15 @@ Ah, y siempre tener buen sexo.
 
     <!-- Audio oculto para la música -->
     <audio id="backgroundMusic" loop>
-        <source src="TU_CANCION_AQUI.mp3" type="audio/mpeg">
+        <source src="Alejandro Sanz - La Fuerza del Corazon.mp3" type="audio/mpeg">
         <!-- Reemplaza "TU_CANCION_AQUI.mp3" con el archivo de su canción -->
     </audio>
 
-    <script>
+   <script>
+        // Variables para rastrear capítulos leídos
+        let chaptersRead = new Set();
+        const totalChapters = 7;
+
         // Crear partículas flotantes
         function createParticles() {
             const particles = document.getElementById('particles');
@@ -574,10 +751,14 @@ Ah, y siempre tener buen sexo.
             });
         }
 
-        // Toggle de capítulos del libro
+        // Toggle de capítulos del libro - MODIFICADO
         function toggleChapter(header) {
             const chapter = header.parentElement;
             const isActive = chapter.classList.contains('active');
+            
+            // Obtener el número del capítulo
+            const chapterTitle = header.querySelector('.chapter-title').textContent;
+            const chapterNumber = chapterTitle.match(/Capítulo (\d+)/)[1];
             
             // Cerrar todos los capítulos
             document.querySelectorAll('.chapter').forEach(ch => {
@@ -587,6 +768,16 @@ Ah, y siempre tener buen sexo.
             // Abrir el capítulo clickeado si no estaba activo
             if (!isActive) {
                 chapter.classList.add('active');
+                
+                // Marcar capítulo como leído
+                chaptersRead.add(chapterNumber);
+                
+                // Verificar si se han leído todos los capítulos
+                if (chaptersRead.size === totalChapters) {
+                    setTimeout(() => {
+                        showBirthdayCelebration();
+                    }, 2000); // Esperar 2 segundos después de abrir el último capítulo
+                }
             }
         }
 
@@ -635,6 +826,53 @@ Ah, y siempre tener buen sexo.
                 music.play().catch(e => console.log('Error reproduciendo música:', e));
             }
         });
-    </script>
+
+        // Mostrar modal de cumpleaños
+        function showBirthdayCelebration() {
+            const modal = document.getElementById('birthdayCelebration');
+            modal.style.display = 'flex';
+            
+            // Crear partículas especiales
+            createCelebrationParticles();
+        }
+
+        // Cerrar modal de cumpleaños
+        function closeBirthdayModal() {
+            const modal = document.getElementById('birthdayModal');
+            modal.style.animation = 'modalFadeIn 0.3s ease-out reverse';
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.style.animation = '';
+            }, 300);
+        }
+
+        // Crear partículas especiales para la celebración
+        function createCelebrationParticles() {
+            const modal = document.getElementById('birthdayModal');
+            const specialParticles = ['🎉', '🎊', '🎈', '💖', '🌟', '✨', '🦋', '🌹'];
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'absolute';
+                    particle.style.fontSize = '2rem';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '1001';
+                    particle.innerHTML = specialParticles[Math.floor(Math.random() * specialParticles.length)];
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.top = Math.random() * 100 + '%';
+                    particle.style.animation = `heartBeat 3s ease-in-out infinite`;
+                    particle.style.animationDelay = Math.random() * 2 + 's';
+                    
+                    modal.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 6000);
+                }, i * 200);
+            }
+        }
+</script>
 </body>
 </html>
